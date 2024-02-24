@@ -19,14 +19,15 @@ namespace Utils {
 }
 
 struct Sphere {
-    double x, y, z;
+    Eigen::Vector3d position;
     double radius;
     Utils::Color color;
+    Sphere(Eigen::Vector3d position_, double _radius, Utils::Color _color)
+        : position(position_), radius(_radius), color(_color) {}
 };
 
+
 struct Screen {
-
-
     const Eigen::Vector3d ScreenLeftBottom_const;
     const Eigen::Vector3d ScreenRightTop_const;
     const Eigen::Vector3d ScreenCenter_const;
