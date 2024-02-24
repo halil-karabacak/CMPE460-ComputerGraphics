@@ -1,0 +1,27 @@
+Write a simple ray tracer that renders a scene using ambient illumination (meaning, constant colors for objects).
+Assume the eye point is at the origin (0,0,0); and the center of the screen is at (0,0,100). 
+The screen extends from (-50,-50,100) to (50,50,100) and the resolution is to be 1000x1000 pixels.  
+
+Inputs to the program are:
+- number of spheres N
+- color of sphere i, i=1,..,N
+- Position (x,y,z) of sphere i, i=1,..,N
+- Radius of sphere i, i=1,..,N
+
+(Note that nearest object should have z>200 and far objects should have z<1000. Choose x & y so that spheres are visible (x,y<z/2))
+
+Output: 1000x1000 color image file representing screen.
+
+Test your program with the following parameters, and with similar parameters of your choice:
+
+
+number of spheres 2
+color of sphere 1: (R,G,B)=(255,0,0);
+color of sphere 2=(0,255,0);
+Position (x,y,z) of sphere 1: (50,50,300)
+Radius of sphere 1 = 20
+Position (x,y,z) of sphere 2: (100,100,600)
+Radius of sphere 2 = 60
+
+Report: Your report should explain the method used, and display outputs with several parameter settings.
+What to submit: You should submit your source code; and exe together with your report.

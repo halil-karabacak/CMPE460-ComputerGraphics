@@ -1,0 +1,3 @@
+/home/chimp/Desktop/boun/cmpe460/hw1/build/CMakeFiles/RayTracer.dir
+/home/chimp/Desktop/boun/cmpe460/hw1/build/CMakeFiles/edit_cache.dir
+/home/chimp/Desktop/boun/cmpe460/hw1/build/CMakeFiles/rebuild_cache.dir
