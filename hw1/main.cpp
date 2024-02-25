@@ -25,14 +25,14 @@ void PlaceObjects(std::vector<std::shared_ptr<Sphere>>& objects) {
     std::cout << "Enter the number of spheres: "; std::cin >> numSpheres;
 
     for (int i = 0; i < numSpheres; ++i) {
-        Eigen::Vector3d position;
         double radius;
         int r, g, b;
-
-        Utils::Color color_UC;
-
+        double x, y, z;
+        
         std::cout << "Enter position (x y z) of sphere " << i + 1 << ": ";
-        std::cin >> position[0] >> position[1] >> position[2];
+        std::cin >> x >> y >> z;
+        Vector3d position{x, y, z};
+
 
         std::cout << "Enter radius of sphere " << i + 1 << ": ";
         std::cin >> radius;
@@ -40,7 +40,7 @@ void PlaceObjects(std::vector<std::shared_ptr<Sphere>>& objects) {
         std::cout << "Enter color (R G B) of sphere " << i + 1 << ": ";
         std::cin >> r >> g >> b;
 
-        color_UC << static_cast<unsigned char>(r), static_cast<unsigned char>(g),  static_cast<unsigned char>(b);
+        Color color_UC{static_cast<unsigned char>(r), static_cast<unsigned char>(g),  static_cast<unsigned char>(b)};
 
         objects.emplace_back(std::make_shared<Sphere>(position, radius, color_UC));
     }

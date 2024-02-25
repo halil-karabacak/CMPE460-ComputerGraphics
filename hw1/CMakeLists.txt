@@ -6,5 +6,5 @@ file(GLOB SOURCES src/*.cpp include/*.h)
 add_executable(RayTracer ${SOURCES} ./main.cpp)
 
 target_include_directories(RayTracer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" 
-                                            "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/eigen-3.4.0"
+                                            "${CMAKE_CURRENT_SOURCE_DIR}/Vector"
                                             "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/stb")

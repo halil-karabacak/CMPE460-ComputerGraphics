@@ -7,10 +7,10 @@ World::World(std::shared_ptr<Camera> camera, std::shared_ptr<Screen> screen,  st
 }
 
 
-Utils::Color World::traceRay(double startX, double startY, double startZ, double dirX, double dirY, double dirZ, const std::vector<std::shared_ptr<Sphere>>& spheres) {
+Color World::traceRay(double startX, double startY, double startZ, double dirX, double dirY, double dirZ, const std::vector<std::shared_ptr<Sphere>>& spheres) {
     double minDistance = INFINITY;
-    Utils::Color pixelColor = {0, 0, 0};
-
+    Color pixelColor = {0, 0, 0};
+    
     for (const auto& sphere : spheres) {
         double ocX = startX - sphere->position.x();
         double ocY = startY - sphere->position.y();
@@ -35,6 +35,7 @@ Utils::Color World::traceRay(double startX, double startY, double startZ, double
 
 
 void World::generateFrame() {
+    #pragma omp parallel for
     for (int y = 0; y < this->screen->screenHeight_const; ++y) {
         for (int x = 0; x < this->screen->screenWidth_const; ++x) {
             double screenTopLeftX = this->screen->ScreenLeftBottom_const.x();
@@ -47,7 +48,7 @@ void World::generateFrame() {
             double dirY = screenTopLeftY + (screenBottomRightY - screenTopLeftY) * (y + 0.5) / this->screen->screenHeight_const;
             double dirZ = screenTopLeftZ;
 
-            Utils::Color pixelColor = traceRay(this->camera->cameraPos.x(), this->camera->cameraPos.y(), this->camera->cameraPos.z(), dirX, dirY, dirZ, objects);
+            Color pixelColor = traceRay(this->camera->cameraPos.x(), this->camera->cameraPos.y(), this->camera->cameraPos.z(), dirX, dirY, dirZ, objects);
             this->screen->frame[y * this->screen->screenHeight_const + x] = pixelColor;
         }
     }
