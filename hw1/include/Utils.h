@@ -8,7 +8,6 @@
 #include "Vector3d.h"
 #include <array>
 
-
 enum Result {
     SUCCESS,
     FAIL,
@@ -44,7 +43,6 @@ struct Screen {
         : ScreenLeftBottom_const(-50, -50, 100),
           ScreenRightTop_const(50, 50, 100),
           ScreenCenter_const(0, 0, 100) {}
-    
 
     Result ExportFrame(const char* file_path);
     unsigned char* convertFrameToUnsignedChar() {
