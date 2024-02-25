@@ -20,5 +20,4 @@ Ray tracing is a rendering technique used to generate an image by tracing the pa
  4. After following these steps you will get an executable named RayTracer/RayTracer.exe.
  
 ### Outputs
-#### With 2 Spheres
-<img src="/hw1/exports/first_res.png" width="800">
+![2 Spheres](/hw1/exports/first_res.png)
