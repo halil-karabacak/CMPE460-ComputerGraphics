@@ -21,4 +21,4 @@ Ray tracing is a rendering technique used to generate an image by tracing the pa
  
 ### Outputs
 #### With 2 Spheres
-<img src="./hw1/exports/first_res.png" width="800">
+<img src="/hw1/exports/first_res.png" width="800">
