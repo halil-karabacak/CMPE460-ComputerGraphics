@@ -1,6 +1,9 @@
 #ifndef VECTOR3D_H
 #define VECTOR3D_H
 
+/**
+ * Header-only, simple Vector3Double implemenation.
+*/
 #include <cmath>
 #include <iostream>
 
