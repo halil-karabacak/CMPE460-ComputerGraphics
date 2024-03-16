@@ -16,7 +16,7 @@
 std::vector<Sphere> spheres;
 Light light(Vector3d(500, 500, 500), Vector3d(1, 1, 1));
 const Vector3d ambientLight(0.1, 0.1, 0.1);
-const Vector3d backgroundColor(0.2, 0.7, 1.0);
+const Vector3d backgroundColor(0.01, 0.01, 0.01);
 const int maxDepth = 5;
 
 Vector3d calculateLighting(const Vector3d& point, const Vector3d& normal, const Material& material, const Vector3d& viewDir) {
@@ -43,7 +43,7 @@ bool sceneIntersect(const Ray& ray, Vector3d& hit, Vector3d& normal, Material& m
 
     float planeDist = -(ray.orig.y() + 100) / ray.dir.y();
     Vector3d planePoint = ray.orig + ray.dir * planeDist;
-    if (planeDist > 0 && planeDist < sphereDist && planePoint.x() >= -50 && planePoint.x() <= 50 && planePoint.z() >= 50 && planePoint.z() <= 150) {
+    if (planeDist > 0 && planeDist) {// < sphereDist && planePoint.x() >= -50 && planePoint.x() <= 50 && planePoint.z() >= 50 && planePoint.z() <= 150) {
         hit = planePoint;
         normal = Vector3d(0, 1, 0); // Upwards
         material = Material(Vector3d(0.5, 0.5, 0.5), Vector3d(0.6, 0.6, 0.6)); // Greyish
