@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include <cmath>
+#include <fstream>
 #include "RayTracer.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -15,19 +16,39 @@
 
 std::vector<Sphere> spheres;
 Light light(Vector3d(500, 500, 500), Vector3d(1, 1, 1));
-const Vector3d ambientLight(0.1, 0.1, 0.1);
-const Vector3d backgroundColor(0.01, 0.01, 0.01);
+const Vector3d ambientLight(0.3, 0.3, 0.3);
+const Vector3d backgroundColor(0.0, 0.0, 0.1);
 const int maxDepth = 5;
+
+
+bool sceneIntersect(const Ray& ray, Vector3d& hit, Vector3d& normal, Material& material);
 
 Vector3d calculateLighting(const Vector3d& point, const Vector3d& normal, const Material& material, const Vector3d& viewDir) {
     Vector3d lightDir = (light.position - point).normalize();
+    float distanceToLight = (light.position - point).length();
     float diff = std::max(lightDir.dot(normal), 0.0f);
-    Vector3d scaledDiffuse = material.diffuse * diff;
 
-    Vector3d diffuse = Vector3d(scaledDiffuse.x() * light.color.x(), scaledDiffuse.y() * light.color.y(), scaledDiffuse.z() * light.color.z());
+    // Shadow check
+    bool inShadow = false;
+    Ray shadowRay(point + normal * 0.001f, lightDir);
+    Vector3d shadowHit, shadowNormal;
+    Material tempMaterial  = Material(Vector3d(0, 0, 0.9), Vector3d(0.6, 0.6, 0.6)); // Greyish;
+    if (sceneIntersect(shadowRay, shadowHit, shadowNormal, tempMaterial)) {
+        float shadowDist = (shadowHit - point).length();
+        if (shadowDist < distanceToLight) {
+            inShadow = true;
+        }
+    }
+
+    Vector3d diffuse(0, 0, 0);
+    if (!inShadow) {
+        Vector3d scaledDiffuse = material.diffuse * diff;
+        diffuse = Vector3d(scaledDiffuse.x() * light.color.x(), scaledDiffuse.y() * light.color.y(), scaledDiffuse.z() * light.color.z());
+    }
 
     return material.ambient * ambientLight + diffuse;
 }
+
 
 bool sceneIntersect(const Ray& ray, Vector3d& hit, Vector3d& normal, Material& material) {
     float sphereDist = std::numeric_limits<float>::max();
@@ -41,11 +62,11 @@ bool sceneIntersect(const Ray& ray, Vector3d& hit, Vector3d& normal, Material& m
         }
     }
 
-    float planeDist = -(ray.orig.y() + 100) / ray.dir.y();
+    float planeDist = -(ray.orig.y() + 35) / ray.dir.y();
     Vector3d planePoint = ray.orig + ray.dir * planeDist;
-    if (planeDist > 0 && planeDist) {// < sphereDist && planePoint.x() >= -50 && planePoint.x() <= 50 && planePoint.z() >= 50 && planePoint.z() <= 150) {
+    if (planeDist > 0 && planeDist < sphereDist) {// && planePoint.x() >= -150 && planePoint.x() <= 150 && planePoint.z() >= 50 && planePoint.z() <= 150) {
         hit = planePoint;
-        normal = Vector3d(0, 1, 0); // Upwards
+        normal = Vector3d(0, 1, 0); // Upwards  
         material = Material(Vector3d(0.5, 0.5, 0.5), Vector3d(0.6, 0.6, 0.6)); // Greyish
         return true;
     }
@@ -95,14 +116,34 @@ void render(const int width, const int height) {
         buffer[index++] = static_cast<unsigned char>(255.599 * color.z());
     }   
 
-    if (stbi_write_png("test.png", width, height, 3, buffer, width * 3) != 0) {
+    if (stbi_write_png("../output.png", width, height, 3, buffer, width * 3) != 0) {
     } 
 }
 
-int main() {
-    spheres.push_back(Sphere(Vector3d(50, 50, 300), 20, Material(Vector3d(1, 0, 0), Vector3d(0.6, 0.7, 0.8))));
-    spheres.push_back(Sphere(Vector3d(100, 100, 600), 60, Material(Vector3d(0, 1, 0), Vector3d(0.3, 0.2, 0.1))));
+void PlaceObjects() {
+    std::ifstream infile("../input.txt");
+    if (!infile.is_open()) {
+        std::cerr << "Error opening file." << std::endl;
+        return;
+    }
 
+    int numObjects;
+    infile >> numObjects;
+    int r, g, b;
+    double x, y, z, radius;
+    for (int i = 0; i < numObjects; ++i) {
+        infile >> r >> g >> b;
+        infile >> x >> y >> z;
+        infile >> radius;
+
+        spheres.push_back(Sphere(Vector3d(x, y, z), radius, Material(Vector3d((float) r/ 255, (float) g/ 255, (float) b/ 255), Vector3d(1, 1, 1))));
+    }
+
+    infile.close();
+}
+
+int main() {
+    PlaceObjects();
     render(1000, 1000);
 
     return 0;
