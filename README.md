@@ -20,4 +20,14 @@ Ray tracing is a rendering technique used to generate an image by tracing the pa
  4. After following these steps you will get an executable named RayTracer/RayTracer.exe.
  
 ### Outputs
-![2 Spheres](/hw1/exports/first_res.png)
+![2 Spheres](/hw1/exports/input_4.png)
+
+
+## Homework2: Recursive Ray Tracing on Spherical Objects
+Advanced version of the first Homework including lighting, material, shadowing, ambient, and diffuse components for coloring. 
+
+### How to Use
+- Same steps with HW1.
+ 
+### Outputs
+![2 Spheres](/hw2/output.png)
